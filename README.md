@@ -4,12 +4,12 @@
 
 ###### **最后更新日期：2025年12月25日 11点30分**
 
-### 功能
+## 功能
 - 🔐 自动签到(单账户或多账户)
 - 👥 支持多账户批量处理
 - ⏰ 每天自动执行签到
 
-### 使用方法
+## 使用方法
 1. fork 或者上传此项目
 2. 在Actions菜单允许 `I understand my workflows, go ahead and enable them` 按钮
 3. 在 GitHub 仓库的 Settings → Secrets and variables → Actions 中添加以下环境变量
@@ -30,10 +30,10 @@
      ```
 4. GitHub Actions 初始手动执行检查是否有配置错误，脚本会自动每天执行,可手动执行
 
-### 注意事项
+## 注意事项
 1. 确保账户密码正确
 2. 首次运行 GitHub Actions 需要授权
 3. 脚本执行时间为 UTC 0:00（香港时间 8:00）
 
-### 许可证
+## 许可证
 GPL 3.0
