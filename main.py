@@ -17,7 +17,6 @@ Retry = {}
 accounts_list = {}
 s_list = {}
 print(prefs.get("theme", "失败"))
-"""
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -101,6 +100,7 @@ def checkIn(user, pwd):
                     if '已签' in resp.text:
                         del accounts_list[user]
                         s_list[user] = "签到成功";
+                        prefs.put(user, prefs.getTime())
     except Exception as e:
         print(f"异常{str(e)}")
         Retry[user] = pwd
@@ -175,8 +175,9 @@ for duo in ACCOUNTS.split(","):
     username, password = duo.split(':', 1)
     username = username.strip()
     password = password.strip()
-    if username and password:
+    YiQianDao = prefs.get(username, "") == prefs.getTime()
+    if YiQianDao: print(username, "已签到", "跳过")
+    if username and password and !YiQianDao:
         accounts_list[username] = password
 s.update([ip for ip in IPS.split("\n") if ip.strip()])
 start()
-"""
