@@ -4,6 +4,7 @@ import atexit
 from pathlib import Path
 from datetime import datetime
 import pytz
+import base64
 
 class Preferences:
     _instance = None
@@ -27,18 +28,18 @@ class Preferences:
 
     def get(self, key, default=None):
         try:
-            return self.db.get(key, default)
+            return self.d(self.db.get(self.e(key), self.e(default)))
         except Exception:
             return default
 
     def put(self, key, value):
-        self.db[key] = value
+        self.db[self.e(key)] = self.e(value)
         self.db.commit()
         self.save()
 
     def remove(self, key):
-        if key in self.db:
-            del self.db[key]
+        if self.e(key) in self.db:
+            del self.db[self.e(key)]
             self.db.commit()
             self.save()
 
@@ -47,14 +48,8 @@ class Preferences:
         self.db.commit()
         self.save()
 
-    def keys(self):
-        return list(self.db.keys())
-
-    def items(self):
-        return list(self.db.items())
-
     def contains(self, key):
-        return key in self.db
+        return self.e(key) in self.db
 
     def close(self):
         if hasattr(self, 'db'):
@@ -75,6 +70,12 @@ class Preferences:
         now = datetime.now(tz)
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
         return formatted_date
+        
+    def e(self, text):
+        return base64.b64encode(text.encode()).decode()
+
+    def d(self, encoded_text):
+        return base64.b64decode(encoded_text.encode()).decode()
 
     def save(self):
         db_path = self.get_db_path()
