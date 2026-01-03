@@ -116,7 +116,6 @@ def checkIn(user, pwd, ip):
                         return True
     except Exception as e:
         print(f"异常{str(e)}")
-        myset.remove(ip)
     return False
 
 def loginhash(data):
