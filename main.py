@@ -2,6 +2,7 @@ import json, requests, re, os, time, random, ipaddress
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from preferences import prefs
 
+prefs.put("cs", prefs.getTime())
 IP_LIST = set()
 accounts_list = {}
 successful_proxies = []
