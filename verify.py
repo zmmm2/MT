@@ -40,6 +40,7 @@ def save():
         os.system('git commit -m "更新" >/dev/null 2>&1')
         os.system('git push --quiet --force-with-lease')
     except Exception as e:
+        print(f"异常: {e}")
         pass
 
 def load():
