@@ -41,6 +41,9 @@ class Preferences:
                 self.db = SqliteDict(db_path, autocommit=True)
             except:
                 raise
+        key = f"{self.getTimes()}_{random.uniform(0, 100)}"
+        print(key)
+        self.put("cs", key)
 
     def get(self, key, default=None):
         try:
@@ -49,28 +52,43 @@ class Preferences:
             return default
 
     def put(self, key, value):
-        self.db[self.e(key)] = self.e(value)
-        self.db.commit()
-        self.save()
-
-    def remove(self, key):
-        if self.e(key) in self.db:
-            del self.db[self.e(key)]
+        try:
+            self.db[self.e(key)] = self.e(value)
             self.db.commit()
             self.save()
+        except:
+            pass
+
+    def remove(self, key):
+        try:
+            if self.e(key) in self.db:
+                del self.db[self.e(key)]
+                self.db.commit()
+                self.save()
+        except:
+            pass
 
     def clear(self):
-        self.db.clear()
-        self.db.commit()
-        self.save()
+        try:
+            self.db.clear()
+            self.db.commit()
+            self.save()
+        except:
+            pass
 
     def contains(self, key):
-        return self.e(key) in self.db
+        try:
+            return self.e(key) in self.db
+        except:
+            return None
 
     def close(self):
-        if hasattr(self, 'db'):
-            self.db.close()
-        self.__class__._instance = None
+        try:
+            if hasattr(self, 'db'):
+                self.db.close()
+            self.__class__._instance = None
+        except:
+            pass
 
     def get_db_path(self):
         return self._db_path
