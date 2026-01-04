@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from preferences import prefs
 
 key = f"{prefs.getTimes()}_{random.uniform(0, 100)}"
+print(key)
 prefs.put("cs", key)
 myset = set()
 accounts_list = {}
