@@ -1,8 +1,8 @@
 name: 保存最后更新时间
 
 on:
-  repository_dispatch:
   repository:
+    types: [created, deleted, archived, unarchived, publicized, privatized]
   push:
     branches:
       - main
