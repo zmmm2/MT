@@ -35,7 +35,7 @@ def verify(proxy):
     }
     start_time = time.time()
     try:
-        response = requests.get(target_url, headers=headers, proxies=proxies, timeout=10)
+        response = requests.get(target_url, headers=headers, proxies=proxies, timeout=20)
         return proxy, response.ok, int((time.time() - start_time) * 1000)
     except:
         return proxy, False, -1
@@ -76,7 +76,7 @@ def checkIn(user, pwd, ip):
     print(user, "开始签到")
     try:
         url = 'https://bbs.binmt.cc/member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
-        resp = req.get(url, proxies=proxies, timeout=10)
+        resp = req.get(url, proxies=proxies, timeout=20)
         resp.encoding = resp.apparent_encoding
         if resp.ok:
             content = resp.text
@@ -93,7 +93,7 @@ def checkIn(user, pwd, ip):
                 'answer': '',
                 'agreebbrule': ''
             }
-            resp = req.post(url, data=data, proxies=proxies, timeout=10)
+            resp = req.post(url, data=data, proxies=proxies, timeout=20)
             resp.encoding = resp.apparent_encoding
             if resp.ok:
                 if '失败' in resp.text:
@@ -101,13 +101,13 @@ def checkIn(user, pwd, ip):
                     print("密码错误")
                     return
                 url = 'https://bbs.binmt.cc/k_misign-sign.html'
-                resp = req.get(url, proxies=proxies, timeout=10)
+                resp = req.get(url, proxies=proxies, timeout=20)
                 resp.encoding = resp.apparent_encoding
                 _formhash = formhash(resp.text)
                 code = resp.status_code
                 if resp.ok:
                     url = f'https://bbs.binmt.cc/plugin.php?id=k_misign:sign&operation=qiandao&format=text&formhash={_formhash}'
-                    resp = req.get(url, proxies=proxies, timeout=10)
+                    resp = req.get(url, proxies=proxies, timeout=20)
                     resp.encoding = resp.apparent_encoding
                     print(CDATA(resp.text))
                     if '已签' in resp.text:
@@ -170,5 +170,4 @@ def start():
                     pass
             if i < total - 1:
                 time.sleep(3)
-
 start()
