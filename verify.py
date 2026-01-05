@@ -1,5 +1,6 @@
 import requests, time, ipaddress, os
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from logger import logger
 
 nVerify = set()
 ips = set()
@@ -40,7 +41,7 @@ def save():
             os.system('git pull --quiet --rebase')
             os.system('git push --quiet --force-with-lease')
     except Exception as e:
-        print(f"异常: {e}")
+        logger.critical(f"异常: {e}")
         pass
 
 def load():
@@ -92,14 +93,14 @@ with ThreadPoolExecutor(max_workers=20) as executor:
     futures = {executor.submit(verify, proxy): i for i, proxy in enumerate(nVerify)}
     for idx, future in enumerate(as_completed(futures), 1):
         proxy, is_valid, requestTime = future.result()
-        print(f"{idx}: {'√' if is_valid else '×'} {proxy} [{requestTime}ms]")
+        logger.info(f"{idx}: {'√' if is_valid else '×'} {proxy} [{requestTime}ms]")
         if is_valid:
             successful_proxies.append((proxy, requestTime))
             nVerify.discard(proxy)
 successful_proxies.sort(key=lambda x: x[1])
-print("\n可用IP代理:")
+logger.info("\n可用IP代理:")
 for idx, (proxy, req_time) in enumerate(successful_proxies, 1):
-    print(f"{idx}: {proxy} - {req_time}ms")
+    logger.info(f"{idx}: {proxy} - {req_time}ms")
     ips.add(proxy)
 nVerify -= ips
 save()
